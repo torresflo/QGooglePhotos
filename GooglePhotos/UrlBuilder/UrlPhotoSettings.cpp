@@ -26,4 +26,13 @@ UrlPhotoSettings UrlPhotoSettings::buildMediaItemPreviewSettings(const QUrl& bas
     return newSettings;
 }
 
+UrlPhotoSettings UrlPhotoSettings::buildPhotoItemFullImageSettings(const QUrl& baseUrl)
+{
+    UrlPhotoSettings newSettings;
+    newSettings.m_baseUrl = baseUrl;
+    newSettings.m_downloadFullImage = true;
+
+    return newSettings;
+}
+
 }

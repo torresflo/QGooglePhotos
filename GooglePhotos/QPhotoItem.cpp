@@ -1,5 +1,7 @@
 #include <QJsonObject>
 
+#include <GooglePhotos/UrlBuilder/UrlPhotoSettings.hpp>
+
 #include <GooglePhotos/QPhotoItem.hpp>
 
 namespace GooglePhotos
@@ -16,6 +18,11 @@ QPhotoItem::QPhotoItem(const QJsonObject& jsonObject, QLibraryClient* parent)
     m_apertureNumber = photoObject["apertureNumber"].toDouble();
     m_isoEquivalent = photoObject["isoEquivalent"].toDouble();
     m_exposureTime = photoObject["exposureTime"].toString();
+}
+
+const QImage& QPhotoItem::getPhoto() const
+{
+    return m_photo;
 }
 
 const QString& QPhotoItem::getCameraMake() const
@@ -46,6 +53,31 @@ double QPhotoItem::getIsoEquivalent() const
 const QString& QPhotoItem::getExposureTime() const
 {
     return m_exposureTime;
+}
+
+void QPhotoItem::downloadPhoto()
+{
+    UrlPhotoSettings settings = UrlPhotoSettings::buildPhotoItemFullImageSettings(m_baseUrl);
+    downloadImage(settings);
+}
+
+bool QPhotoItem::isPhotoAvailable() const
+{
+    return !m_photo.isNull();
+}
+
+void QPhotoItem::onImageAvailable(const QImage& image)
+{
+    if(image.width() == getWidth() //TODO Find a better way to identify who started the download
+       && image.height() == getHeight())
+    {
+        m_photo = image;
+        emit photoAvailable();
+    }
+    else
+    {
+        QMediaItem::onImageAvailable(image);
+    }
 }
 
 } //namespace GooglePhotos

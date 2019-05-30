@@ -13,12 +13,13 @@ public:
 
     static UrlPhotoSettings buildAlbumCoverSettings(const QUrl& baseUrl);
     static UrlPhotoSettings buildMediaItemPreviewSettings(const QUrl& baseUrl);
+    static UrlPhotoSettings buildPhotoItemFullImageSettings(const QUrl& baseUrl);
 
     QUrl m_baseUrl;
-    unsigned int m_maxWidth = 1280;
-    unsigned int m_maxHeight = 720;
+    unsigned int m_maxWidth = 0;
+    unsigned int m_maxHeight = 0;
     bool m_cropImage = false;
-    bool m_downloadMetadata = false;
+    bool m_downloadFullImage = false;
 };
 
 }
