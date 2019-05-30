@@ -17,19 +17,21 @@ QUrl UrlBuilder::buildGetAlbumPhotosUrl()
 
 QUrl UrlBuilder::buildGetPhotoUrl(const GooglePhotos::UrlPhotoSettings& settings)
 {
-    QString stringUrl("%0=w%1-h%2");
-    stringUrl = stringUrl.arg(settings.m_baseUrl.toString(), QString("%0").arg(settings.m_maxWidth), QString("%0").arg(settings.m_maxHeight));
-
-    if(settings.m_cropImage)
+    QString stringUrl = settings.m_baseUrl.toString();
+    if(settings.m_downloadFullImage)
     {
-        stringUrl += "-c";
+        stringUrl += "=d";
     }
-
-    if(settings.m_downloadMetadata)
+    else
     {
-        stringUrl += "-d";
-    }
+        QString sizeParameters("=w%0-h%1");
+        stringUrl += sizeParameters.arg(QString("%0").arg(settings.m_maxWidth), QString("%0").arg(settings.m_maxHeight));
 
+        if(settings.m_cropImage)
+        {
+            stringUrl += "-c";
+        }
+    }
     return QUrl(stringUrl);
 }
 
