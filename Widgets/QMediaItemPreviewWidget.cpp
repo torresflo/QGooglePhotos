@@ -1,4 +1,5 @@
 #include <QLabel>
+#include <QMouseEvent>
 #include <QPixmap>
 #include <QVBoxLayout>
 
@@ -8,7 +9,8 @@
 
 #include <Widgets/QMediaItemPreviewWidget.hpp>
 
-QMediaItemPreviewWidget::QMediaItemPreviewWidget(GooglePhotos::QMediaItem* mediaItem, QWidget *parent) : QWidget(parent)
+QMediaItemPreviewWidget::QMediaItemPreviewWidget(GooglePhotos::QMediaItem* mediaItem, QWidget *parent)
+    : QWidget(parent), m_mediaItem(mediaItem)
 {
     QImage photoPreview;
     if(mediaItem->isPreviewAvailable())
@@ -32,6 +34,31 @@ QMediaItemPreviewWidget::QMediaItemPreviewWidget(GooglePhotos::QMediaItem* media
 
     setContentsMargins(0, 0, 0, 0);
     setLayout(mainLayout);
+}
+
+GooglePhotos::QMediaItem* QMediaItemPreviewWidget::getMediaItem() const
+{
+    return m_mediaItem;
+}
+
+void QMediaItemPreviewWidget::mousePressEvent(QMouseEvent* event)
+{
+    if(!m_pressed)
+    {
+        m_pressed = true;
+        emit pressed();
+    }
+    event->accept();
+}
+
+void QMediaItemPreviewWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+    if(m_pressed)
+    {
+        m_pressed = false;
+        emit released();
+    }
+    event->accept();
 }
 
 void QMediaItemPreviewWidget::onPreviewAvailable()

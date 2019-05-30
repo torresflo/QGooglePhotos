@@ -19,6 +19,7 @@ public:
 
 private slots:
     void onMediaItemsDataAvailable(int minRange);
+    void onMediaItemClicked();
 
 private:
     QFlowLayout* m_mainLayout;

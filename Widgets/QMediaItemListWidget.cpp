@@ -3,10 +3,12 @@
 #include <GooglePhotos/QLibraryClient.hpp>
 #include <GooglePhotos/QAlbum.hpp>
 #include <GooglePhotos/QMediaItem.hpp>
+#include <GooglePhotos/QPhotoItem.hpp>
 
 #include <Widgets/QFlowLayout.h>
 #include <Widgets/QMediaItemPreviewWidget.hpp>
 #include <Widgets/QMediaItemListWidget.hpp>
+#include <Widgets/QPhotoViewer.hpp>
 
 QMediaItemListWidget::QMediaItemListWidget(GooglePhotos::QAlbum* album, GooglePhotos::QLibraryClient* libraryClient, QWidget* parent)
     :QScrollArea (parent)
@@ -34,6 +36,19 @@ void QMediaItemListWidget::onMediaItemsDataAvailable(int minRange)
         GooglePhotos::QMediaItem* mediaItem = mediaItems[i];
         QMediaItemPreviewWidget* previewWidget = new QMediaItemPreviewWidget(mediaItem, this);
         mediaItem->downloadPreview();
+
+        connect(previewWidget, &QMediaItemPreviewWidget::released, this, &QMediaItemListWidget::onMediaItemClicked);
         m_mainLayout->addWidget(previewWidget);
+    }
+}
+
+void QMediaItemListWidget::onMediaItemClicked()
+{
+    QMediaItemPreviewWidget* mediaItemPreviewWidget = static_cast<QMediaItemPreviewWidget*>(sender());
+    GooglePhotos::QMediaItem* mediaItem = mediaItemPreviewWidget->getMediaItem();
+    if(GooglePhotos::QPhotoItem* photoItem = dynamic_cast<GooglePhotos::QPhotoItem*>(mediaItem))
+    {
+        QPhotoViewer* photoViewer = new QPhotoViewer(photoItem);
+        photoViewer->show();
     }
 }

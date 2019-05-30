@@ -16,10 +16,22 @@ class QMediaItemPreviewWidget : public QWidget
 public:
     QMediaItemPreviewWidget(GooglePhotos::QMediaItem* mediaItem, QWidget *parent = nullptr);
 
+    GooglePhotos::QMediaItem* getMediaItem() const;
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
 private:
+    GooglePhotos::QMediaItem* m_mediaItem = nullptr;
     QLabel* m_preview = nullptr;
+    bool m_pressed = false;
 
     void onPreviewAvailable();
+
+signals:
+    void pressed();
+    void released();
 };
 
 #endif // QPHOTOPREVIEWWIDGET_HPP

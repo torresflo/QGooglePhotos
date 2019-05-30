@@ -19,10 +19,12 @@ SOURCES += \
     Application/MainWindowUI.cpp \
     Widgets/QAlbumCoverWidget.cpp \
     Widgets/QAlbumsWidget.cpp \
+    Widgets/QAspectRatioPixmapLabel.cpp \
     Widgets/QFlowLayout.cpp \
     Widgets/QHoverableWidget.cpp \
     Widgets/QMediaItemListWidget.cpp \
     Widgets/QMediaItemPreviewWidget.cpp \
+    Widgets/QPhotoViewer.cpp \
     main.cpp \
 
 HEADERS += \
@@ -43,7 +45,9 @@ HEADERS += \
     Utils/Singleton.inl \
     Widgets/QAlbumCoverWidget.hpp \
     Widgets/QAlbumsWidget.hpp \
+    Widgets/QAspectRatioPixmapLabel.hpp \
     Widgets/QFlowLayout.h \
     Widgets/QHoverableWidget.hpp \
     Widgets/QMediaItemListWidget.hpp \
-    Widgets/QMediaItemPreviewWidget.hpp
+    Widgets/QMediaItemPreviewWidget.hpp \
+    Widgets/QPhotoViewer.hpp
