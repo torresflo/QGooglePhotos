@@ -52,9 +52,6 @@ protected:
     int m_width;
     int m_height;
 
-private:
-    void onPhotoPreviewReceived();
-
 signals:
     void previewAvailable();
 };

@@ -96,14 +96,4 @@ void QMediaItem::onImageAvailable(const QImage& image)
     emit previewAvailable();
 }
 
-void QMediaItem::onPhotoPreviewReceived()
-{
-    QNetworkReply* networkReply = dynamic_cast<QNetworkReply*>(sender());
-    if (networkReply->error() == QNetworkReply::NoError)
-    {
-        m_preview = QImage::fromData(networkReply->readAll());
-        emit previewAvailable();
-    }
-}
-
 } //namespace GooglePhotos
