@@ -21,6 +21,7 @@ private slots:
     void tryConnect();
     void handleAuthorizationSuccessful();
     void handleAuthorizationFailure();
+    void handleError();
     void initAlbumsWidget();
 
     void onAlbumSelected(GooglePhotos::QAlbum* album);

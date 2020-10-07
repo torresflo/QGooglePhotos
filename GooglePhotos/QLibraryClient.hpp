@@ -44,6 +44,7 @@ private:
 signals:
     void authentificationSuccessed();
     void authentificationFailed(QAbstractOAuth::Error error);
+    void error(const QString &error, const QString &errorDescription, const QUrl &uri);
     void albumsInformationAvailable();
 };
 

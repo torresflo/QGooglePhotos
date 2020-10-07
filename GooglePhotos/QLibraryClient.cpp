@@ -1,6 +1,7 @@
 #include <QOAuthHttpServerReplyHandler>
 #include <QOAuth2AuthorizationCodeFlow>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -65,9 +66,19 @@ void QLibraryClient::initialize(const LibrarySettings& settings)
     m_authorizationCodeFlow->setContentType(QAbstractOAuth::ContentType::Json);
     m_librarySettings.fillAuthorizationCodeFlow(m_authorizationCodeFlow);
 
-    connect(m_authorizationCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
+
+    connect(m_authorizationCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, [=](QUrl url)
+    {
+        QUrlQuery query(url);
+        query.addQueryItem("prompt", "consent");      // Param required to get data everytime
+        query.addQueryItem("access_type", "offline"); // Needed for Refresh Token (as AccessToken expires shortly)
+        url.setQuery(query);
+
+        QDesktopServices::openUrl(url);
+    });
     connect(m_authorizationCodeFlow, &QOAuth2AuthorizationCodeFlow::granted, this, &QLibraryClient::authentificationSuccessed);
     connect(m_authorizationCodeFlow, &QOAuth2AuthorizationCodeFlow::requestFailed, this, &QLibraryClient::authentificationFailed);
+    connect(m_authorizationCodeFlow, &QOAuth2AuthorizationCodeFlow::error, this, &QLibraryClient::error);
 }
 
 void QLibraryClient::onAlbumsInformationReceived()

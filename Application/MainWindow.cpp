@@ -24,6 +24,13 @@ MainWindow::MainWindow(QWidget *parent) : MainWindowUI(parent)
 
 void MainWindow::tryConnect()
 {
+    if(QSslSocket::sslLibraryBuildVersionNumber() > QSslSocket::sslLibraryVersionNumber())
+    {
+        QMessageBox::critical(this, tr("Invalid OpenSSL library"), tr("It seems you do not have the required SSL Library binaries installed on your computer.\n"
+                                                                       "The required version is at least: %0.").arg(QSslSocket::sslLibraryBuildVersionNumber()));
+        return;
+    }
+
     if(m_libraryClient->isSettingsValid())
     {
         if(!m_libraryClient->isAccessGranted())
@@ -59,6 +66,11 @@ void MainWindow::handleAuthorizationSuccessful()
 void MainWindow::handleAuthorizationFailure()
 {
     QMessageBox::critical(this, "Failed!", "Authorization failed!");
+}
+
+void MainWindow::handleError()
+{
+    QMessageBox::critical(this, "Error!", "There is an error!");
 }
 
 void MainWindow::onAlbumSelected(GooglePhotos::QAlbum* album)
