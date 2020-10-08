@@ -1,3 +1,5 @@
+TEMPLATE = app
+
 QT += \
     core \
     widgets \
@@ -25,6 +27,7 @@ SOURCES += \
     Widgets/QMediaItemListWidget.cpp \
     Widgets/QMediaItemPreviewWidget.cpp \
     Widgets/QPhotoViewer.cpp \
+    Widgets/QVlcVideoViewer.cpp \
     main.cpp \
 
 HEADERS += \
@@ -50,4 +53,14 @@ HEADERS += \
     Widgets/QHoverableWidget.hpp \
     Widgets/QMediaItemListWidget.hpp \
     Widgets/QMediaItemPreviewWidget.hpp \
-    Widgets/QPhotoViewer.hpp
+    Widgets/QPhotoViewer.hpp \
+    Widgets/QVlcVideoViewer.hpp
+
+LIBS += \
+    -L$$PWD/VLC-Qt/lib -lVLCQtCore -lVLCQtWidgets
+
+INCLUDEPATH += \
+    $$PWD/VLC-Qt/include
+
+DEPENDPATH += \
+    $$PWD/VLC-Qt/include

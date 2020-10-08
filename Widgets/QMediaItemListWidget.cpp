@@ -1,19 +1,25 @@
 #include <QOAuth2AuthorizationCodeFlow>
 
+#include <VLCQtCore/Instance.h>
+#include <VLCQtCore/Common.h>
+
 #include <GooglePhotos/QLibraryClient.hpp>
 #include <GooglePhotos/QAlbum.hpp>
 #include <GooglePhotos/QMediaItem.hpp>
 #include <GooglePhotos/QPhotoItem.hpp>
+#include <GooglePhotos/QVideoItem.hpp>
 
 #include <Widgets/QFlowLayout.h>
 #include <Widgets/QMediaItemPreviewWidget.hpp>
 #include <Widgets/QMediaItemListWidget.hpp>
 #include <Widgets/QPhotoViewer.hpp>
+#include <Widgets/QVlcVideoViewer.hpp>
 
 QMediaItemListWidget::QMediaItemListWidget(GooglePhotos::QAlbum* album, GooglePhotos::QLibraryClient* libraryClient, QWidget* parent)
     :QScrollArea (parent)
 {
     m_libraryClient = libraryClient;
+
     connect(album, &GooglePhotos::QAlbum::mediaItemsDataAvailable, this, &QMediaItemListWidget::onMediaItemsDataAvailable);
     album->setPaginationMode(GooglePhotos::PaginationMode::Automatic);
     album->downloadMediaItemsData();
@@ -50,5 +56,10 @@ void QMediaItemListWidget::onMediaItemClicked()
     {
         QPhotoViewer* photoViewer = new QPhotoViewer(photoItem);
         photoViewer->show();
+    }
+    else if(GooglePhotos::QVideoItem* videoItem = dynamic_cast<GooglePhotos::QVideoItem*>(mediaItem))
+    {
+        QVlcVideoViewer* videoViewer = new QVlcVideoViewer(videoItem);
+        videoViewer->show();
     }
 }
