@@ -17,6 +17,8 @@ QPhotoViewer::QPhotoViewer(GooglePhotos::QPhotoItem* photoItem, QWidget* parent)
         connect(m_photoItem, &GooglePhotos::QPhotoItem::photoAvailable, this, &QPhotoViewer::onPhotoReceived);
         m_photoItem->downloadPhoto();
     }
+
+    setMinimumSize(300, 300);
 }
 
 void QPhotoViewer::fillWidget(const QImage& photo)
