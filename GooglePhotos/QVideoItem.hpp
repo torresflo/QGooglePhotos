@@ -15,12 +15,14 @@ class QVideoItem : public QMediaItem
 public:
     QVideoItem(const QJsonObject& jsonObject, QLibraryClient* parent);
 
+    const QString& getVideoDataUrl() const;
     const QString& getCameraMake() const;
     const QString& getCameraModel() const;
     double getFps() const;
     const QString& getStatus() const;
 
 private:
+    QString m_videoDataUrl;
     QString m_cameraMake;
     QString m_cameraModel;
     double m_fps;

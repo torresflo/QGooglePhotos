@@ -66,7 +66,6 @@ void QLibraryClient::initialize(const LibrarySettings& settings)
     m_authorizationCodeFlow->setContentType(QAbstractOAuth::ContentType::Json);
     m_librarySettings.fillAuthorizationCodeFlow(m_authorizationCodeFlow);
 
-
     connect(m_authorizationCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, [=](QUrl url)
     {
         QUrlQuery query(url);

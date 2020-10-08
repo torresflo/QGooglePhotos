@@ -14,6 +14,12 @@ QVideoItem::QVideoItem(const QJsonObject& jsonObject, QLibraryClient* parent)
     m_cameraModel = videoObject["cameraModel"].toString();
     m_fps = videoObject["fps"].toDouble();
     m_status = videoObject["status"].toString();
+    m_videoDataUrl = getBaseUrl() + "=dv";
+}
+
+const QString& QVideoItem::getVideoDataUrl() const
+{
+    return m_videoDataUrl;
 }
 
 const QString& QVideoItem::getCameraMake() const
