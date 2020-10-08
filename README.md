@@ -20,6 +20,7 @@
   * [Installation](#installation)
 * [Usage](#usage)
   * [Library](#library)
+  * [Widgets](#widgets)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -28,6 +29,7 @@
 ### Prerequisites
 
 The project is compiled with <a href="https://doc.qt.io/qt-5/index.html">Qt 5.11.2</a>. The Qt add-on <a href="https://doc.qt.io/qt-5/qtnetworkauth-index.html">Qt Network Authorization</a> must be installed to build the project.
+You also need to provide the library [VLC-Qt](https://vlc-qt.tano.si/) to build the project. It is only necessary for the video viewer widget though, you can run the Google Photos library without it if you want.
 
 You need to register a new project in the <a href="https://console.developers.google.com/">Google Developpers Console</a> as no one is provided. This step is necessary because you have to request the client credentials to identify your application. 
 
@@ -56,20 +58,28 @@ The file sould be similar to this one:
 
 ## Usage
 
-The project is divided in two parts, a library (folder `GooglePhotos`) and a simple application (folders `Application`and `Widgets`).
+The project is divided in several parts, a library (folder `GooglePhotos`), a series of widgets to display the library (folder `Widgets`) and a simple application used to test everything (folder `Application`).
 
-When starting the application, in the main menu, go to `Settings > Connection...`. It will open your browser and ask you the authorization to access your Google Photos Library. Note: the request will be done with your credentials.
+When starting the main application, in the main menu, go to `Settings > Connection...`. It will open your browser and ask you the authorization to access your Google Photos Library. Note: the request will be done with your credentials (placed in the file `clientid.json`).
 
 ### Library
 
-The library is using the <a href="https://developers.google.com/photos/library/guides/overview">Google Photos RESTful API</a>.
+The library uses the <a href="https://developers.google.com/photos/library/guides/overview">Google Photos RESTful API</a>.
 
 The main classes of the library are:
-- LibrarySettings that represents the credentials.
-- QLibraryClient that represents the Google Photos library. It is used for the connection and to retrieve the albums.
-- QAlbum that represents an album in Google Photos. It is used to retrieve the media items.
-- QPhotoItem that represents a photo.
-- QVideoItem taht represents a video (not functionnal yet).
+- `LibrarySettings` that represents the credentials.
+- `QLibraryClient` that represents the Google Photos library. It is used for the connection and to retrieve the albums.
+- `QAlbum` that represents an album in Google Photos. It is used to retrieve the media items (`QPhotoItem` and `QVideoItem`).
+- `QPhotoItem` that represents a photo.
+- `QVideoItem` that represents a video (you can access the video bytes directly through the video data URL available in the class).
+
+### Widgets
+
+Various simple widgets are available to display the library:
+- `QAlbumsWidget` to display a list of albums in the library. It is currently the first widget instantiated in the main application.
+- `QMediaItemListWidget` to display the list of media items available in a `QAlbum`.
+- `QPhotoViewer`, a super simple viewer for a `QPhotoItem`.
+- `QVlcVideoViewer`, a super simple viewer for a `QVideoItem`.
 
 ## Contributing
 
